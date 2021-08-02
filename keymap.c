@@ -52,15 +52,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
+// KC_VOLUP and KC_VOLD - Change volume
+// KC_WH_U and KC_WH_D - Move wheel up/down
+// KC_UP and KC_DOWN - Arrow up/down
+// KC_LEFT and KC_RIGHT - Arrow left/right
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (clockwise) {
-      tap_code(KC_VOLU);
+    if (get_mods() & MOD_BIT(KC_LCTRL)) {
+        if (clockwise) {
+            tap_code16(C(KC_RGHT));
+        } else {
+            tap_code16(C(KC_LEFT));
+        }
     } else {
-      tap_code(KC_VOLD);
+        if (clockwise) {
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
+        }
     }
     return true;
 }
+
 
 // Initialize variable holding the binary
 // representation of active modifiers.
