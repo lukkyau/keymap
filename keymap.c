@@ -56,15 +56,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // KC_WH_U and KC_WH_D - Move wheel up/down
 // KC_UP and KC_DOWN - Arrow up/down
 // KC_LEFT and KC_RIGHT - Arrow left/right
-
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (get_mods() & MOD_BIT(KC_LCTRL)) {
+        uint8_t mod_state = get_mods();
+        del_mods(MOD_MASK_CTRL); 
         if (clockwise) {
-            tap_code16(C(KC_RGHT));
+            tap_code(KC_RIGHT);
         } else {
-            tap_code16(C(KC_LEFT));
+            tap_code(KC_LEFT);
         }
-    } else {
+        set_mods(mod_state);   
+    } else if (get_mods() & MOD_BIT(KC_LSFT)){
+        uint8_t mod_state = get_mods();
+        del_mods(MOD_MASK_SHIFT); 
+        if (clockwise) {
+            tap_code(KC_DOWN);
+        } else {
+            tap_code(KC_UP);
+        }
+        set_mods(mod_state);   
+    } 
+    else {
         if (clockwise) {
             tap_code(KC_VOLU);
         } else {
